@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rechentrainer/state/trainer.dart';
 import 'package:rechentrainer/views/base_view.dart';
+import 'package:rechentrainer/widgets/text_cell.dart';
 
 import 'animated_page.dart';
 
@@ -49,12 +50,7 @@ class CalculationPageView extends StatelessWidget {
                             )
                           : Expanded(
                               child: Center(
-                              child: Text(
-                                e,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
+                              child: TextCell(text: e),
                             )))
                       .toList(),
                 ),

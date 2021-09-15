@@ -19,11 +19,23 @@ class TrainingOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(name),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Text(
+            name,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ),
         ToggleButtons(
-          children: List.from(labels.map((String e) => Text(e)).cast<Widget>()),
+          children: List.from(labels
+              .map((String e) => Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Text(e),
+                  ))
+              .cast<Widget>()),
           onPressed: callback,
           isSelected: values,
+          selectedBorderColor: Colors.cyan,
         ),
       ],
     );

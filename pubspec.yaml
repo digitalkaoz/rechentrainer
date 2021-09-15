@@ -38,6 +38,7 @@ dependencies:
   flutter_mobx: ^2.0.2
   petitparser: ^4.3.0
   get_it: ^7.2.0
+  confetti: ^0.6.0-nullsafety
 
 dev_dependencies:
   flutter_test:

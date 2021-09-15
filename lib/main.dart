@@ -10,6 +10,7 @@ GetIt getIt = GetIt.instance;
 
 void main() {
   getIt.registerSingleton<Trainer>(Trainer());
+
   runApp(const Rechentrainer());
 }
 
@@ -21,7 +22,7 @@ class Rechentrainer extends StatelessWidget {
     return MaterialApp(
       title: 'Rechentrainer',
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        primarySwatch: Colors.cyan,
       ),
       home: Observer(builder: (_) {
         var trainer = getIt<Trainer>();

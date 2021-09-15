@@ -57,7 +57,7 @@ class Equation {
 
   Equation(String line) {
     result =
-        calc(line.contains(" = ") ? line.split(" = ").first : line).toInt();
+        _calc(line.contains(" = ") ? line.split(" = ").first : line).toInt();
     plain = line.contains(" = ") ? line : "$line = ${result.toString()}";
     masked = _maskLine(plain);
 
@@ -75,18 +75,18 @@ class Equation {
   bool get solved => solution == answer;
 
   factory Equation.random(range, ops, arithmetics) {
-    var eq = generate(range, ops, arithmetics);
-    var res = calc(eq).toString();
+    var eq = _generate(range, ops, arithmetics);
+    var res = _calc(eq).toInt().toString();
     return Equation("$eq= $res");
   }
 
-  static num calc(String equation) {
+  static num _calc(String equation) {
     final _parser = EquationParser.instance;
 
     return _parser.parse(equation).value;
   }
 
-  static String generate(int range, int ops, List<String> arithmetics) {
+  static String _generate(int range, int ops, List<String> arithmetics) {
     String eq = '';
     bool initial = true;
     var trys = 0;
@@ -101,15 +101,16 @@ class Equation {
         eq = _eq;
         initial = false;
       }
-      _eq += arithmetics[Random().nextInt(arithmetics.length)] + " ";
+      var _arithmetic = arithmetics[Random().nextInt(arithmetics.length)];
+      _eq += _arithmetic + " ";
       _eq += Random()
               .nextInt(Random().nextBool() ? range : (range / ops).floor())
               .toString() +
           " ";
 
-      var res = calc(_eq);
+      var res = _calc(_eq);
       trys++;
-      if (res > 0 && res <= range) {
+      if (res > 0 && res <= range && res % 1 == 0) {
         eq = _eq;
         ops--;
       }

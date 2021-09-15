@@ -82,12 +82,28 @@ abstract class TrainerBase with Store {
   bool get done => tasks.length == currentIndex;
 
   @computed
+  double get successRate => tasks.isNotEmpty
+      ? tasks.where((element) => element.solved).length / tasks.length
+      : 0;
+
+  @computed
   bool get initial => currentIndex == 0;
 
   @computed
   Duration? get duration => _startTime != null && _endTime != null
       ? _endTime!.difference(_startTime!)
       : null;
+
+  @computed
+  String get formattedDuration {
+    duration.toString();
+    return [
+      duration!.inMinutes.remainder(60),
+      duration!.inSeconds.remainder(60)
+    ].map((seg) {
+      return seg.toString().padLeft(2, '0');
+    }).join(':');
+  }
 
   @action
   void selectArithmetic(int index) {
