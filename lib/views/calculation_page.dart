@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get_it/get_it.dart';
+import 'package:rechentrainer/state/history.dart';
 import 'package:rechentrainer/state/trainer.dart';
 import 'package:rechentrainer/views/base_view.dart';
 import 'package:rechentrainer/widgets/text_cell.dart';
@@ -14,17 +16,25 @@ class CalculationPageView extends StatelessWidget {
 
   CalculationPageView({Key? key}) : super(key: key);
 
-  void _saveAnswer(Trainer trainer) {
+  Future<void> _saveAnswer(Trainer trainer, History history) async {
     trainer.solve(_controller.value.text);
+    if (trainer.done) {
+      await history.saveTraining("test", trainer.result!);
+    }
     _controller.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    var trainer = GetIt.instance<Trainer>();
+    final trainer = GetIt.instance<Trainer>();
+    final history = GetIt.instance<History>();
 
     return Observer(builder: (_) {
       return BaseView(
+        action: PlatformIconButton(
+          onPressed: trainer.reset,
+          icon: Icon(context.platformIcons.reply),
+        ),
         title:
             "Rechentrainer - ${(trainer.currentIndex + 1).toString()} / ${trainer.tasks.length.toString()}",
         body: trainer.currentTask != null
@@ -34,17 +44,22 @@ class CalculationPageView extends StatelessWidget {
                   children: trainer.currentTask!.parts
                       .map((e) => e == "?"
                           ? Expanded(
-                              child: TextFormField(
-                                onEditingComplete: () => _saveAnswer(trainer),
-                                controller: _controller,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9]')),
-                                ],
-                                autofocus: true,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
+                              child: SizedBox(
+                                height: 60,
+                                child: PlatformTextField(
+                                  style: const TextStyle(fontSize: 40),
+                                  onEditingComplete: () async =>
+                                      await _saveAnswer(trainer, history),
+                                  controller: _controller,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]')),
+                                  ],
+                                  autofocus: true,
+                                  /*decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                  ),*/
                                 ),
                               ),
                             )

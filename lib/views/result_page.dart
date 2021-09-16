@@ -4,7 +4,9 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get_it/get_it.dart';
+import 'package:rechentrainer/state/history.dart';
 import 'package:rechentrainer/state/trainer.dart';
 import 'package:rechentrainer/utils/calculator.dart';
 import 'package:rechentrainer/widgets/text_cell.dart';
@@ -21,16 +23,15 @@ class ResultPageView extends StatefulWidget {
 
 class _ResultPageViewState extends State<ResultPageView> {
   late ConfettiController _confettiController;
+  int pageIndex = 1;
 
   @override
   void initState() {
     _confettiController =
         ConfettiController(duration: const Duration(seconds: 10));
-    if (WidgetsBinding.instance != null) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        _confettiController.play();
-      });
-    }
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _confettiController.play();
+    });
 
     super.initState();
   }
@@ -106,9 +107,31 @@ class _ResultPageViewState extends State<ResultPageView> {
   @override
   Widget build(BuildContext context) {
     var trainer = GetIt.instance<Trainer>();
+    var history = GetIt.instance<History>();
 
     return BaseView(
       title: "Ergebnis - ${trainer.formattedDuration} Minuten",
+      nav: PlatformNavBar(
+        currentIndex: pageIndex,
+        itemChanged: (int i) {
+          if (i == 0) {
+            trainer.reset();
+            if (history.visible) {
+              history.toggle();
+            }
+          } else {
+            history.toggle();
+          }
+        },
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(context.platformIcons.clockSolid), label: "Start"),
+          BottomNavigationBarItem(
+              icon: Icon(context.platformIcons.settings), label: "Ergebnis"),
+          BottomNavigationBarItem(
+              icon: Icon(context.platformIcons.book), label: "Trainings")
+        ],
+      ),
       body: Stack(
         children: [
           Observer(builder: (_) {
@@ -135,18 +158,11 @@ class _ResultPageViewState extends State<ResultPageView> {
             child: Observer(builder: (_) {
               return ListView.builder(
                 itemCount: trainer.tasks.length,
-                itemBuilder: (_, index) {
-                  return _builder(trainer.tasks[index]);
-                },
+                itemBuilder: (_, index) => _builder(trainer.tasks[index]),
               );
             }),
           ),
         ],
-      ),
-      action: FloatingActionButton(
-        onPressed: trainer.reset,
-        tooltip: 'Reset',
-        child: const Icon(Icons.restart_alt),
       ),
     );
   }

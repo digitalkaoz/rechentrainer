@@ -1,12 +1,57 @@
+import 'package:localstore/localstore.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rechentrainer/utils/calculator.dart' as calc;
 import 'package:rechentrainer/utils/calculator.dart';
+import 'package:rechentrainer/utils/date.dart';
 
 part 'trainer.g.dart';
+
+class TrainingResult {
+  DateTime start;
+  Duration duration;
+  double successRate;
+  int range;
+  int chain;
+  List<String> arithmetics;
+  int count;
+
+  TrainingResult(this.start, this.duration, this.successRate, this.range,
+      this.count, this.chain, this.arithmetics);
+
+  bool get solved => successRate == 1;
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> data = {
+      "start": start.toIso8601String(),
+      "duration": duration.inSeconds,
+      "successRate": successRate,
+      "range": range,
+      "chain": chain,
+      "count": count,
+      "arithmetics": arithmetics
+    };
+
+    return data;
+  }
+
+  factory TrainingResult.fromMap(Map<String, dynamic> data) {
+    return TrainingResult(
+      DateTime.parse(data['start']),
+      Duration(seconds: data['duration']),
+      data['successRate'],
+      data['range'],
+      data['chain'],
+      data['count'],
+      List<String>.from(data['arithmetics']),
+    );
+  }
+}
 
 class Trainer = TrainerBase with _$Trainer;
 
 abstract class TrainerBase with Store {
+  Localstore get storage => Localstore.instance;
+
   @observable
   ObservableMap<String, bool> arithmetics =
       {"+": true, "-": false, "*": false, "/": false}.asObservable();
@@ -79,7 +124,7 @@ abstract class TrainerBase with Store {
   bool get hasTasks => tasks.isNotEmpty;
 
   @computed
-  bool get done => tasks.length == currentIndex;
+  bool get done => tasks.isNotEmpty && tasks.length == currentIndex;
 
   @computed
   double get successRate => tasks.isNotEmpty
@@ -95,15 +140,22 @@ abstract class TrainerBase with Store {
       : null;
 
   @computed
-  String get formattedDuration {
-    duration.toString();
-    return [
-      duration!.inMinutes.remainder(60),
-      duration!.inSeconds.remainder(60)
-    ].map((seg) {
-      return seg.toString().padLeft(2, '0');
-    }).join(':');
-  }
+  TrainingResult? get result => done
+      ? TrainingResult(
+          _startTime!,
+          duration!,
+          successRate,
+          _currentOption(range),
+          _currentOption(count),
+          _currentOption(chain),
+          arithmetics.entries
+              .where((element) => element.value == true)
+              .map((e) => e.key)
+              .toList())
+      : null;
+
+  @computed
+  String get formattedDuration => formatDuration(duration!);
 
   @action
   void selectArithmetic(int index) {
@@ -158,6 +210,35 @@ abstract class TrainerBase with Store {
   int _currentOption(Map<String, bool> options) {
     return int.parse(
         options.entries.firstWhere((element) => element.value).key);
+  }
+
+  @action
+  Future<void> saveConfiguration() async {
+    var saving = storage.collection('rechentrainer').doc('config').set({
+      'count': count,
+      'chain': chain,
+      'range': range,
+      'arithmetics': arithmetics
+    });
+
+    return ObservableFuture(saving);
+  }
+
+  @action
+  Future<void> loadConfiguration() async {
+    var config = await storage.collection('rechentrainer').doc('config').get();
+
+    if (config == null) {
+      return Future.value();
+    }
+
+    count = (config['count'] as Map).cast<String, bool>().asObservable();
+    range = (config['range'] as Map).cast<String, bool>().asObservable();
+    chain = (config['chain'] as Map).cast<String, bool>().asObservable();
+    arithmetics =
+        (config['arithmetics'] as Map).cast<String, bool>().asObservable();
+
+    return Future.value();
   }
 
   void computeTasks() {

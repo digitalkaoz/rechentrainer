@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TrainingOption extends StatelessWidget {
@@ -18,12 +19,13 @@ class TrainingOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: Text(
             name,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
         ToggleButtons(
@@ -36,6 +38,11 @@ class TrainingOption extends StatelessWidget {
           onPressed: callback,
           isSelected: values,
           selectedBorderColor: Colors.cyan,
+        ),
+        Divider(
+          color: Theme.of(context).primaryColor,
+          height: 0,
+          thickness: 1,
         ),
       ],
     );

@@ -1,15 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:rechentrainer/state/history.dart';
 import 'package:rechentrainer/state/trainer.dart';
-import 'package:rechentrainer/views/calculation_page.dart';
-import 'package:rechentrainer/views/result_page.dart';
-import 'package:rechentrainer/views/start_page.dart';
+import 'package:rechentrainer/theme.dart';
+import 'package:rechentrainer/widgets/platform_app.dart';
 
 GetIt getIt = GetIt.instance;
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   getIt.registerSingleton<Trainer>(Trainer());
+  getIt.registerSingleton<History>(History());
 
   runApp(const Rechentrainer());
 }
@@ -19,27 +22,11 @@ class Rechentrainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Rechentrainer',
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
+    return Theme(
+      data: platformTheme,
+      child: const PlatformApp(
+        title: "Rechentrainer",
       ),
-      home: Observer(builder: (_) {
-        var trainer = getIt<Trainer>();
-        return Navigator(
-          pages: [
-            startPage,
-            if (trainer.hasTasks) calculationPage,
-            if (trainer.hasTasks && trainer.done) resultPage
-          ],
-          onPopPage: (route, result) {
-            if (!route.didPop(result)) {
-              return false;
-            }
-            return true;
-          },
-        );
-      }),
     );
   }
 }

@@ -39,6 +39,11 @@ dependencies:
   petitparser: ^4.3.0
   get_it: ^7.2.0
   confetti: ^0.6.0-nullsafety
+  flutter_platform_widgets: ^1.9.5
+  flutter_spinkit: ^5.1.0
+  localstorage: ^4.0.0+1
+  intl: ^0.17.0
+  localstore: ^1.2.0
 
 dev_dependencies:
   flutter_test:
