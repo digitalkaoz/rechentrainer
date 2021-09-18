@@ -48,3 +48,4 @@ app.*.map.json
 /android/app/release
 /lib/state/*.g.dart
 /test/**/*.mocks.dart
+/android/key.properties

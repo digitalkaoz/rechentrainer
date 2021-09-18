@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.digitalkaoz.rechentrainer">
    <application
-        android:label="rechentrainer"
+        android:label="Rechentrainer"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
