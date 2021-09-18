@@ -15,7 +15,7 @@ class PlatformApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return p.PlatformProvider(
-      initialPlatform: TargetPlatform.iOS,
+      //initialPlatform: TargetPlatform.iOS,
       settings: p.PlatformSettingsData(iosUsesMaterialWidgets: true),
       builder: (_) => p.PlatformApp(
         localizationsDelegates: const <LocalizationsDelegate<dynamic>>[

@@ -44,8 +44,13 @@ class _ProgressButtonState extends State<ProgressButton> {
 
           setState(() {
             isGenerating = !isGenerating;
-            widget.callback();
-            isGenerating = !isGenerating;
+            try {
+              widget.callback();
+              isGenerating = !isGenerating;
+            } catch (e) {
+              // ignore: avoid_print
+              print(e);
+            }
           });
 
           if (widget.postCallback != null) {

@@ -43,7 +43,8 @@ class ResultList extends StatelessWidget {
                               : "${eq.answer == null ? '' : eq.answer.toString()} (${eq.solution.toString()})"
                                   .trim(),
                           style: TextStyle(
-                              color: eq.solved ? Colors.green : Colors.red),
+                            color: eq.solved ? Colors.green : Colors.red,
+                          ),
                         )
                       : TextCell(
                           center: true,
@@ -56,10 +57,11 @@ class ResultList extends StatelessWidget {
             .toList(),
       ),
       leading: Icon(
-          eq.solved
-              ? context.platformIcons.checkMark
-              : context.platformIcons.clear,
-          color: eq.solved ? Colors.green : Colors.red),
+        eq.solved
+            ? context.platformIcons.checkMark
+            : context.platformIcons.clear,
+        color: eq.solved ? Colors.green : Colors.red,
+      ),
     );
   }
 }
