@@ -151,10 +151,12 @@ packages:
   confetti:
     dependency: "direct main"
     description:
-      name: confetti
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.0-nullsafety"
+      path: "."
+      ref: master
+      resolved-ref: eb1aacaaadc896450a32343020a6a54be49fb8d1
+      url: "https://github.com/funwithflutter/flutter_confetti"
+    source: git
+    version: "0.6.0"
   convert:
     dependency: transitive
     description:
@@ -509,13 +511,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  random_color:
-    dependency: transitive
-    description:
-      name: random_color
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.6-nullsafety"
   shelf:
     dependency: transitive
     description:

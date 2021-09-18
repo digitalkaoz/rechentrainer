@@ -2,6 +2,8 @@
 
 > train some basic math equations on time for kids!
 
+[Live-Demo](http://digitalkaoz.github.io/rechentrainer)
+
 ## Features
 
 * Crossplattform (ios/android/web) Controls
