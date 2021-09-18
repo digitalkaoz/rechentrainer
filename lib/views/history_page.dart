@@ -58,7 +58,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
           items: [
             BottomNavigationBarItem(
                 icon: Icon(context.platformIcons.clockSolid), label: "Start"),
-            if (trainer.currentIndex > 0)
+            if (trainer.done)
               BottomNavigationBarItem(
                   icon: Icon(context.platformIcons.settings),
                   label: "Ergebnis"),

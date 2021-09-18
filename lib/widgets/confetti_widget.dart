@@ -44,6 +44,7 @@ class _ConfettiWidgetState extends State<ConfettiWidget> {
           alignment: Alignment.center,
           child: c.ConfettiWidget(
             confettiController: _confettiController,
+            emissionFrequency: 0,
             blastDirectionality: c.BlastDirectionality
                 .explosive, // don't specify a direction, blast randomly
             shouldLoop: false,
