@@ -21,8 +21,8 @@ jobs:
 
       - name: Dependencies
         run: |
-        flutter pub get
-        flutter packages pub run build_runner build --delete-conflicting-outputs
+          flutter pub get
+          flutter packages pub run build_runner build --delete-conflicting-outputs
 
       - name: Tests
         run: flutter test
@@ -42,13 +42,13 @@ jobs:
 
       - name: Dependencies
         run: |
-        flutter pub get
-        flutter packages pub run build_runner build --delete-conflicting-outputs
+          flutter pub get
+          flutter packages pub run build_runner build --delete-conflicting-outputs
 
       - name: Build
         run: |
-        flutter build apk
-        flutter build web
+          flutter build apk
+          flutter build web
 
       - name: Archive Builds
         uses: actions/upload-artifact@v2
