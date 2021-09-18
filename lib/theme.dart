@@ -6,6 +6,7 @@ const primary = Color(0xFF00BCD4);
 final platformTheme = ThemeData(
   cupertinoOverrideTheme: const CupertinoThemeData(
     primaryColor: primary,
+    barBackgroundColor: primary,
   ),
   primarySwatch: Colors.cyan,
   elevatedButtonTheme: ElevatedButtonThemeData(

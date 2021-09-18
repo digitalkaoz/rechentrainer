@@ -1,4 +1,4 @@
-package com.example.rechentrainer
+package net.digitalkaoz.rechentrainer
 
 import android.os.Build
 import android.os.Bundle

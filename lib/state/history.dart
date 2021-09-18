@@ -1,3 +1,4 @@
+import 'package:get_it/get_it.dart';
 import 'package:localstore/localstore.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rechentrainer/state/trainer.dart';
@@ -13,50 +14,46 @@ abstract class HistoryBase with Store {
   @observable
   ObservableList<TrainingResult> trainings = <TrainingResult>[].asObservable();
 
-  Localstore get storage => Localstore.instance;
-
   @action
   void toggle() {
     visible = !visible;
   }
 
   @action
-  Future<void> saveTraining(String name, TrainingResult result) async {
-    var saving = storage
-        .collection(name)
-        .doc(result.start.toIso8601String())
-        .set(result.toMap());
+  void hide() {
+    visible = false;
+  }
+
+  @action
+  void show() {
+    visible = true;
+  }
+
+  DocumentRef _doc(String name) =>
+      GetIt.instance<CollectionRef>().doc('history_$name');
+
+  @action
+  Future<void> save(String name, TrainingResult result) async {
     trainings.add(result);
 
-    return ObservableFuture(saving);
+    await _doc(name).set(
+        {'trainings': trainings.map((element) => element.toMap()).toList()});
   }
 
   @action
-  Future<void> loadHistory(String name) async {
-    var items = await storage.collection(name).get();
-    if (items != null) {
-      items.forEach(
-          (key, value) => trainings.add(TrainingResult.fromMap(value)));
+  Future<void> load(String name) async {
+    trainings.clear();
+    var item = await _doc(name).get();
+    if (item != null) {
+      for (var training in item['trainings']) {
+        trainings.add(TrainingResult.fromMap(training));
+      }
     }
   }
 
   @action
-  Future<void> clear(String name) async {
-    var items = await storage.collection(name).get();
-    if (items != null) {
-      var deletion = Future.wait(items
-          .map((key, value) => MapEntry(
-              key,
-              storage
-                  .collection(name)
-                  .doc(key.replaceFirst('/$name/', ''))
-                  .delete()))
-          .values);
-      trainings.clear();
-      return ObservableFuture(deletion);
-    }
-
-    //var clearing = storage.collection(name)
-    return ObservableFuture(Future.delayed(const Duration(milliseconds: 1)));
+  Future<void> delete(String name) async {
+    await _doc(name).delete();
+    trainings.clear();
   }
 }

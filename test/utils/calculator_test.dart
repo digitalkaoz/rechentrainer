@@ -53,6 +53,11 @@ void main() {
   });
 
   group('masking', () {
+    test('splittable into parts', () {
+      var eq = Equation("9 + 4");
+      expect(eq.parts.length, 5); // 9 + 4 = 13
+    });
+
     test('masks exactly once', () {
       var eq = Equation("9 + 4");
       expect("?".allMatches(eq.masked).length, 1);

@@ -139,11 +139,3 @@ class Equation {
     return parts.join(" ");
   }
 }
-
-Set<dynamic> buildResultLine(String masked, String answer, String solution) {
-  var _solution = solution.substring(
-      masked.indexOf('?'), masked.indexOf(" ", masked.indexOf('?')));
-  var solved = masked.replaceFirst('?', answer.trim()) == solution;
-
-  return {masked, answer, _solution, solved};
-}

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../theme.dart';
+
 class TrainingOption extends StatelessWidget {
   final String name;
   final List<String> labels;
@@ -29,20 +31,19 @@ class TrainingOption extends StatelessWidget {
           ),
         ),
         ToggleButtons(
-          children: List.from(labels
-              .map((String e) => Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Text(e),
-                  ))
-              .cast<Widget>()),
+          borderRadius: BorderRadius.circular(40),
+          selectedColor: primary,
+          selectedBorderColor: primary,
+          borderColor: primary,
+          children: List.from(labels.map((String e) => Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Text(e,
+                    style: const TextStyle(
+                      fontSize: 20,
+                    )),
+              ))),
           onPressed: callback,
           isSelected: values,
-          selectedBorderColor: Colors.cyan,
-        ),
-        Divider(
-          color: Theme.of(context).primaryColor,
-          height: 0,
-          thickness: 1,
         ),
       ],
     );

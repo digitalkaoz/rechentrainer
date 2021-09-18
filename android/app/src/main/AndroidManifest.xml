@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rechentrainer">
+    package="net.digitalkaoz.rechentrainer">
    <application
         android:label="rechentrainer"
         android:icon="@mipmap/ic_launcher">

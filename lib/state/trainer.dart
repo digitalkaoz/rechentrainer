@@ -1,3 +1,4 @@
+import 'package:get_it/get_it.dart';
 import 'package:localstore/localstore.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rechentrainer/utils/calculator.dart' as calc;
@@ -50,8 +51,6 @@ class TrainingResult {
 class Trainer = TrainerBase with _$Trainer;
 
 abstract class TrainerBase with Store {
-  Localstore get storage => Localstore.instance;
-
   @observable
   ObservableMap<String, bool> arithmetics =
       {"+": true, "-": false, "*": false, "/": false}.asObservable();
@@ -157,10 +156,18 @@ abstract class TrainerBase with Store {
   @computed
   String get formattedDuration => formatDuration(duration!);
 
+  DocumentRef _doc(String name) =>
+      GetIt.instance<CollectionRef>().doc('trainer_$name');
+
   @action
-  void selectArithmetic(int index) {
+  void selectArithmetic(int index, [bool? state]) {
     arithmetics[arithmetics.keys.elementAt(index)] =
-        !arithmetics.values.elementAt(index);
+        state ?? !arithmetics.values.elementAt(index);
+
+    // require one selected
+    arithmetics.values.firstWhere((element) => element,
+        orElse: () => arithmetics[arithmetics.keys.elementAt(index)] =
+            state ?? !arithmetics.values.elementAt(index));
   }
 
   @action
@@ -213,32 +220,33 @@ abstract class TrainerBase with Store {
   }
 
   @action
-  Future<void> saveConfiguration() async {
-    var saving = storage.collection('rechentrainer').doc('config').set({
-      'count': count,
-      'chain': chain,
-      'range': range,
-      'arithmetics': arithmetics
+  Future<void> save(String name) async {
+    await _doc(name).set({
+      'count': {...count},
+      'chain': {...chain},
+      'range': {...range},
+      'arithmetics': {...arithmetics}
     });
-
-    return ObservableFuture(saving);
   }
 
   @action
-  Future<void> loadConfiguration() async {
-    var config = await storage.collection('rechentrainer').doc('config').get();
+  Future<void> delete(String name) async {
+    reset();
+    return _doc(name).delete();
+  }
 
-    if (config == null) {
-      return Future.value();
+  @action
+  Future<void> load(String name) async {
+    var config = await _doc(name).get();
+    reset();
+
+    if (config != null) {
+      count = (config['count'] as Map).cast<String, bool>().asObservable();
+      range = (config['range'] as Map).cast<String, bool>().asObservable();
+      chain = (config['chain'] as Map).cast<String, bool>().asObservable();
+      arithmetics =
+          (config['arithmetics'] as Map).cast<String, bool>().asObservable();
     }
-
-    count = (config['count'] as Map).cast<String, bool>().asObservable();
-    range = (config['range'] as Map).cast<String, bool>().asObservable();
-    chain = (config['chain'] as Map).cast<String, bool>().asObservable();
-    arithmetics =
-        (config['arithmetics'] as Map).cast<String, bool>().asObservable();
-
-    return Future.value();
   }
 
   void computeTasks() {

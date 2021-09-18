@@ -6,6 +6,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rechentrainer/state/history.dart';
 import 'package:rechentrainer/state/trainer.dart';
+import 'package:rechentrainer/state/user.dart';
 import 'package:rechentrainer/views/base_view.dart';
 import 'package:rechentrainer/widgets/text_cell.dart';
 
@@ -16,10 +17,10 @@ class CalculationPageView extends StatelessWidget {
 
   CalculationPageView({Key? key}) : super(key: key);
 
-  Future<void> _saveAnswer(Trainer trainer, History history) async {
+  Future<void> _saveAnswer(Trainer trainer, History history, User user) async {
     trainer.solve(_controller.value.text);
     if (trainer.done) {
-      await history.saveTraining("test", trainer.result!);
+      await history.save(user.current!, trainer.result!);
     }
     _controller.clear();
   }
@@ -28,6 +29,7 @@ class CalculationPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     final trainer = GetIt.instance<Trainer>();
     final history = GetIt.instance<History>();
+    final user = GetIt.instance<User>();
 
     return Observer(builder: (_) {
       return BaseView(
@@ -49,7 +51,7 @@ class CalculationPageView extends StatelessWidget {
                                 child: PlatformTextField(
                                   style: const TextStyle(fontSize: 40),
                                   onEditingComplete: () async =>
-                                      await _saveAnswer(trainer, history),
+                                      await _saveAnswer(trainer, history, user),
                                   controller: _controller,
                                   keyboardType: TextInputType.number,
                                   inputFormatters: <TextInputFormatter>[
