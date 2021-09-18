@@ -1,5 +1,7 @@
 # Rechentrainer
 
+[![rechentrainer](https://github.com/digitalkaoz/rechentrainer/actions/workflows/ci.yml/badge.svg)](https://github.com/digitalkaoz/rechentrainer/actions/workflows/ci.yml)
+
 > train some basic math equations on time for kids!
 
 [Live-Demo](http://digitalkaoz.github.io/rechentrainer)
