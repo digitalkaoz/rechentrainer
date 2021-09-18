@@ -78,6 +78,7 @@ jobs:
 
       - name: Build
         run: |
+          flutter pub run flutter_launcher_icons:main
           flutter build apk
           flutter build web --base-href "/rechentrainer/"
 
