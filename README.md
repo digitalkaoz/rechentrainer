@@ -6,11 +6,11 @@
 
 [Web Version](http://digitalkaoz.github.io/rechentrainer)
 
-![alt text](./assets/screenshots/users_set.png "Users")
-![alt text](./assets/screenshots/configuration.png "Configuration")
-![alt text](./assets/screenshots/calculation.png "Calculation")
-![alt text](./assets/screenshots/result.png "Result")
-![alt text](./assets/screenshots/history.png "History")
+![alt text](./assets/screenshots/android_phone/users_set.png "Users")
+![alt text](./assets/screenshots/android_phone/configuration.png "Configuration")
+![alt text](./assets/screenshots/android_phone/calculation.png "Calculation")
+![alt text](./assets/screenshots/android_phone/result.png "Result")
+![alt text](./assets/screenshots/android_phone/history.png "History")
 
 ## Features
 
