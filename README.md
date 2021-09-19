@@ -6,6 +6,12 @@
 
 [Web Version](http://digitalkaoz.github.io/rechentrainer)
 
+<style type="text/css">
+    img {
+        width: 25%;
+    }
+</style>
+
 ![alt text](./assets/screenshots/android_phone/users_set.png "Users")
 ![alt text](./assets/screenshots/android_phone/configuration.png "Configuration")
 ![alt text](./assets/screenshots/android_phone/calculation.png "Calculation")
