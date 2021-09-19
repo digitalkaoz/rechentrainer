@@ -6,11 +6,11 @@
 
 [Web Version](http://digitalkaoz.github.io/rechentrainer)
 
-![Users](<img src="./assets/screenshots/android_phone/users_set.png" width="20%"/>)
-![Configuration](<img src="./assets/screenshots/android_phone/configuration.png" width="20%"/>)
-![Calculation](<img src="./assets/screenshots/android_phone/calculation.png" width="20%"/>)
-![Result](<img src="./assets/screenshots/android_phone/result.png" width="20%"/>)
-![History](<img src="./assets/screenshots/android_phone/history.png" width="20%"/>)
+[<img src="./assets/screenshots/android_phone/users_set.png" width="19%"/>](./assets/screenshots/android_phone/users_set.png)
+[<img src="./assets/screenshots/android_phone/configuration.png" width="19%"/>](./assets/screenshots/android_phone/configuration.png)
+[<img src="./assets/screenshots/android_phone/calculation.png" width="19%"/>](./assets/screenshots/android_phone/calculation.png)
+[<img src="./assets/screenshots/android_phone/result.png" width="19%"/>](./assets/screenshots/android_phone/result.png)
+[<img src="./assets/screenshots/android_phone/history.png" width="19%"/>](./assets/screenshots/android_phone/history.png)
 
 ## Features
 
