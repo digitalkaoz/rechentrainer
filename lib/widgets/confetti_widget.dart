@@ -21,10 +21,10 @@ class _ConfettiWidgetState extends State<ConfettiWidget> {
 
   @override
   void initState() {
+    super.initState();
+
     _confettiController =
         c.ConfettiController(duration: const Duration(seconds: 5));
-
-    super.initState();
 
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       _confettiController.play();
@@ -48,7 +48,6 @@ class _ConfettiWidgetState extends State<ConfettiWidget> {
             emissionFrequency: 0,
             blastDirectionality: c.BlastDirectionality
                 .explosive, // don't specify a direction, blast randomly
-            shouldLoop: false,
             numberOfParticles: max(widget.particles, 1),
             colors: const [
               Colors.green,
