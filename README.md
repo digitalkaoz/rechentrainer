@@ -4,7 +4,13 @@
 
 > train some basic math equations on time for kids!
 
-[Live-Demo](http://digitalkaoz.github.io/rechentrainer)
+[Web Version](http://digitalkaoz.github.io/rechentrainer)
+
+![alt text](./assets/screenshots/users_set.png "Users")
+![alt text](./assets/screenshots/configuration.png "Configuration")
+![alt text](./assets/screenshots/calculation.png "Calculation")
+![alt text](./assets/screenshots/result.png "Result")
+![alt text](./assets/screenshots/history.png "History")
 
 ## Features
 

@@ -83,7 +83,13 @@ class Equation {
   static num _calc(String equation) {
     final _parser = EquationParser.instance;
 
-    return _parser.parse(equation).value;
+    try {
+      return _parser.parse(equation).value;
+    } catch (e) {
+      // ignore: avoid_print
+      print("faulty equation: $equation");
+      rethrow;
+    }
   }
 
   static String _generate(int range, int ops, List<String> arithmetics) {

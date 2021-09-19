@@ -49,3 +49,4 @@ app.*.map.json
 /lib/state/*.g.dart
 /test/**/*.mocks.dart
 /android/key.properties
+/coverage

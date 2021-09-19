@@ -23,11 +23,12 @@ class _ConfettiWidgetState extends State<ConfettiWidget> {
   void initState() {
     _confettiController =
         c.ConfettiController(duration: const Duration(seconds: 5));
+
+    super.initState();
+
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       _confettiController.play();
     });
-
-    super.initState();
   }
 
   @override
