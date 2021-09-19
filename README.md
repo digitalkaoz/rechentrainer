@@ -1,6 +1,7 @@
 # Rechentrainer
 
 [![rechentrainer](https://github.com/digitalkaoz/rechentrainer/actions/workflows/ci.yml/badge.svg)](https://github.com/digitalkaoz/rechentrainer/actions/workflows/ci.yml)
+[![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/digitalkaoz/1df752c5d53b71493c5c0e998ff350c9/raw/rechentrainer.json)]
 
 > train some basic math equations on time for kids!
 

@@ -39,12 +39,27 @@ jobs:
       - name: Tests
         run: flutter test --coverage
 
-      - name: Report code coverage
+      - name: Code Coverage HTML artifact
         uses: zgosalvez/github-actions-report-lcov@v1
         with:
           coverage-files: coverage/lcov.info
           artifact-name: code-coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: summarize Code Coverage
+        run: |
+          COVERAGE=$(lcov --summary coverage/lcov.info | grep lines......: | cut -f2 -d ':' | cut -f1 -d '(')
+          echo "COVERAGE=$(echo $COVERAGE)" >> $GITHUB_ENV
+
+      - name: Create Code Coverage Badge
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: rechentrainer.json
+          label: Test Coverage
+          message: ${{ env.COVERAGE }}
+          color: green
 
   build:
     name: Build & Deploy
